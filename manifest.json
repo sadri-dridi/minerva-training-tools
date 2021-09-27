@@ -1,8 +1,8 @@
 {
-    "name" : " Minerva Training Tool",
+    "name" : " Minerva Training Amplify Tool",
     "version": "0.0.1",
     "manifest_version": 2,
-    "description" : "Test",
+    "description" : "Quick extension to solve a very annoying problem.",
     "content_scripts" : [
         {
             "js" : ["init.js"],
