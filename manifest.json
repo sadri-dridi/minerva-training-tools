@@ -10,10 +10,13 @@
             "matches" : ["*://www.minerva.edu/*"]
         }
     ],
+    "browser_action": {
+        "default_popup": "popup.html"
+      },
     "background": {
-        "scripts": ["background.js"]
+        "scripts": ["background.js", "convert-file.js"]
     },
     "permissions": [
-        "*://www.minerva.edu/*", "tabs", "webNavigation"
+        "*://www.minerva.edu/*", "tabs", "webNavigation", "downloads"
     ]
 }
