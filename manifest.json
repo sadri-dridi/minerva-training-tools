@@ -7,6 +7,11 @@
         {
             "js" : ["init.js"],
             "css": ["styles.css"],
+            "matches" : ["*://www.minerva.edu/admissions/evaluate*"]
+        },
+        {
+            "js": ["getAnswers.js"],
+            "run_at": "document_start",
             "matches" : ["*://www.minerva.edu/*"]
         }
     ],

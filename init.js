@@ -9,15 +9,32 @@ function fnAddButtons() {
     btn.id = "amplify";
     btn.className = "amplify";
     btn.textContent = "⤢"
+    
     document.body.appendChild(btn);
     document.body.appendChild(div);
 }
+
+function addIframe(url) {
+
+    let iframe = document.getElementsByTagName('iframe')
+    
+    var s = trim(url);
+    if(!s){
+        return;
+    }
+    else{
+        let final_url = 'https://view.officeapps.live.com/op/view.aspx?src='+encodeURIComponent(s)
+        console.log(final_url)
+        iframe[0].src = final_url
+    }
+}
+
 
 async function fnDefineEvents() {
     console.log("ENTRA")
     
     let modal = document.getElementById("amplify-modal");
-    let extension = /.pdf/;
+    let extension = /.(pdf|doc|docx|zip)/;
 
     let button = document.getElementById("amplify");
     let modalImg = document.getElementById("img01");
@@ -49,13 +66,22 @@ async function fnDefineEvents() {
 
 }
 
-chrome.runtime.onMessage.addListener(function(request)    {
-    // $('.star_gray').click();
-    // $('a.btn.page_next').click();
-    console.log("AAA", request)
+function trim(str) {
+    return str.replace(/^\s*|\s*$/g,"");
+}
 
-});
 
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        if(request.fileUrl){
+            addIframe(request.fileUrl)
+        }
+
+    })
+
+
+
+// getAnswers();
 fnAddButtons();
 fnDefineEvents();
 

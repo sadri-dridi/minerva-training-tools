@@ -1,4 +1,5 @@
 
+console.log("BLE")
 window.test = window.test || {}; 
 
 test.Files = function() {}

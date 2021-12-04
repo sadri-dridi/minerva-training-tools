@@ -4,18 +4,19 @@
 //     chrome.tabs.executeScript(null,{file:"init.js"});
 // });
 
+console.log("N")
 chrome.downloads.onCreated.addListener((item) => {
-    console.log(item);
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        var currTab = tabs[0];
-        console.log(currTab.index)
-        chrome.downloads.cancel(item.id)
-        if (currTab) { 
-            // chrome.tabs.sendMessage(currTab.index, item);
-            var files = new test.Files;    
-            files.convertFile(item, currTab.id);
-            
-        }
-      });
+        console.log("ITEM", item);
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            let extension = /.zip/;
+            if (!item.finalUrl.match(extension)){
+                var currTab = tabs[0];
+                chrome.tabs.sendMessage(currTab.id, {fileUrl: item.finalUrl});  
+                chrome.downloads.cancel(item.id)
+            }
+
+
+    })
+    
     
   });
