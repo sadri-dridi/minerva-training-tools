@@ -1,9 +1,61 @@
-<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" type="text/css" href="styles/stopwatch.min.css">
+  <link rel="stylesheet" type="text/css" href="styles/component.min.css">
+  <link rel="stylesheet" type="text/css" href="styles/main.min.css">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Kalam|Courier+Prime&display=swap" rel="stylesheet">
+  <title>Howork - Time checker</title>
 </head>
+
 <body>
-    
+  <main id='app' theme="dark">
+    <section id='stopwatch' class="board" state="off">
+      <p id="clock" class="time">00:00:00</p>
+    </section>
+
+    <section id="buttons">
+      <button id="startBtn" class="btn">Start</button>
+      <button id="stopBtn" class="btn">Stop</button>
+      <button id="resetBtn" class="btn">Reset</button>
+      <button id="saveBtn" class="btn">Save</button>
+    </section>
+
+    <section id='displayTime' class="board">
+      <div id="startTimeCont" class="time-cont">
+        <h4>Start</h4>
+        <p id="startTime" class="time"></p>
+      </div>
+      <div id="stopTimeCont" class="time-cont">
+        <h4>Stop</h4>
+        <p id="stopTime" class="time"></p>
+      </div>
+    </section>
+
+    <section id="displayRecord" class="board">
+      <div id="record">
+        <div id="record-total">
+          <h4>Total</h4>
+          <p id="total" class="total-sum"></p>
+          <!-- <label for="givenDay">Day</label> -->
+          <select name="givenDay" id="givenDay">
+            <option value="0">All</option>
+          </select>
+        </div>
+        <div id="recordHistory">
+          <!-- Javascript will generate child elements -->
+        </div>
+        <button id="clearRecordBtn" class="btn">Clear Record</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="stopwatch.js"></script>
 </body>
+
 </html>

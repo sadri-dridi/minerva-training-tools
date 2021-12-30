@@ -1,18 +1,13 @@
 {
-    "name" : " Minerva Training Amplify Tool",
+    "name" : " Minerva AP Pro Tools",
     "version": "0.0.1",
     "manifest_version": 2,
-    "description" : "Quick extension to solve a very annoying problem.",
+    "description" : "Quick extension to solve very annoying problems.",
     "content_scripts" : [
         {
             "js" : ["init.js"],
             "css": ["styles.css"],
             "matches" : ["*://www.minerva.edu/admissions/evaluate*"]
-        },
-        {
-            "js": ["getAnswers.js"],
-            "run_at": "document_start",
-            "matches" : ["*://www.minerva.edu/*"]
         }
     ],
     "browser_action": {
@@ -22,6 +17,6 @@
         "scripts": ["background.js", "convert-file.js"]
     },
     "permissions": [
-        "*://www.minerva.edu/*", "tabs", "webNavigation", "downloads"
+        "*://www.minerva.edu/*", "tabs", "webNavigation", "downloads", "storage"
     ]
 }
