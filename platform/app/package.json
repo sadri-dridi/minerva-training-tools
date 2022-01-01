@@ -1,0 +1,51 @@
+{
+  "name": "approtools",
+  "version": "0.0.1",
+  "description": "Yeah",
+  "productName": "Minerva AP Pro Tools",
+  "author": "Davi Coscarelli <48040161+davicoscarelli@users.noreply.github.com>",
+  "private": true,
+  "scripts": {
+    "test": "echo \"No test specified\" && exit 0",
+    "build": "quasar build",
+    "start": "node server.js",
+    "heroku-postbuild": "yarn && yarn build"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.0.0",
+    "axios": "^0.21.1",
+    "chart.js": "^2.9.3",
+    "connect-history-api-fallback": "^1.6.0",
+    "core-js": "^3.6.5",
+    "express": "^4.17.2",
+    "quasar": "^2.0.0",
+    "serve-static": "^1.14.2",
+    "vue-chartjs": "^3.5.0",
+    "vue-i18n": "^9.0.0",
+    "vue-router": "^4.0.12",
+    "vue-sidebar-menu-akahon": "^0.1.4",
+    "vue2-transitions": "^0.3.0",
+    "vuedraggable": "^4.0.1",
+    "vuesax": "^3.12.2",
+    "vuex": "^4.0.1"
+  },
+  "devDependencies": {
+    "@quasar/app": "^3.0.0"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": ">= 12.22.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}
