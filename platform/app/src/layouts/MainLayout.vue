@@ -33,7 +33,10 @@
         />
       </q-list>
     </q-drawer> -->
-    <VueSidebarMenuAkahon 
+    
+    <BottomSidebar v-if="$q.screen.width < 500" :options="options" v-model="selected" :value="selected"/>
+    <Sidebar 
+      v-else
       menuTitle="Minerva AP" 
       bgColor="#2a2a2a" 
       secondaryColor="#181818" 
@@ -42,20 +45,24 @@
       :isSearch="false"
       :menuItems="linksList"
       :profileName="user.name"
-      :profileRole="user.class"
-      :profileImg="user.avatar"
+      :profileRole="user.email"
+      profileImg="https://avatars.githubusercontent.com/u/48040161?v=4"
       />
 
     <q-page-container  class="bg-secondary ">
       <router-view />
     </q-page-container>
 
+    
+
   </q-layout>
 </template>
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
-import VueSidebarMenuAkahon from "vue-sidebar-menu-akahon";
+import Sidebar from "components/Sidebar.vue";
+import BottomSidebar from "components/BottomSidebar.vue";
+import { User } from 'src/models/User'
 
 
 import { defineComponent, ref } from 'vue'
@@ -65,66 +72,91 @@ export default defineComponent({
 
   components: {
     EssentialLink,
-    VueSidebarMenuAkahon
+    Sidebar,
+    BottomSidebar
   },
   computed: {
     user() {
-      // let user = User.getPlan()
-      let user = {
-        avatar: "https://avatars.githubusercontent.com/u/48040161?v=4",
-        name: "Davi Coscarelli",
-        class: "M25"
-      }
+      let user = User.getUser()
+      // let user = {
+      //   avatar: "https://avatars.githubusercontent.com/u/48040161?v=4",
+      //   name: "Davi Coscarelli",
+      //   class: "M25"
+      // }
       return user
     },
   },
-  mounted() {
-    // if (this.$q.screen.sm){
-    //   this.open = false
-    // }
+  created() {
   },
-  setup () {
-    const leftDrawerOpen = ref(false)
-
+  methods: {
+    
+  },
+  watch: {
+    
+  },
+  data() {
     return {
-      leftDrawerOpen,
-      open: true,
+      open: false,
+      exit: false,
       linksList: [
         {
-          link: '/',
+          link: '#/',
           name: 'Dashboard',
           tooltip: 'Dashboard',
-          icon: 'bx-grid-alt',
+          icon: 'fas fa-home',
         },
         {
-          link: '/timesheet',
+          link: '#/timesheet',
           name: 'Timesheet',
           tooltip: 'Files',
-          icon: 'bx-timer',
+          icon: 'fas fa-stopwatch',
         },
         {
-          link: '/taskboard',
+          link: '#/taskboard',
           name: 'Taskboard',
           tooltip: 'Taskboard',
-          icon: 'bx-task',
+          icon: 'fas fa-clipboard-check',
         },
         {
           link: '#',
           name: 'Analytics',
           tooltip: 'Analytics',
-          icon: 'bx-pie-chart-alt-2',
+          icon: 'fas fa-chart-pie',
         },
         {
           link: '#',
           name: 'Setting',
           tooltip: 'Setting',
-          icon: 'bx-cog',
+          icon: 'fas fa-cog',
         },
       ],
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
+      selected: this.$route.meta.id,
+      options: [
+        {
+          id: 4,
+          icon: "fas fa-cog",
+          title: "Setting",
+        },
+        { 
+          id: 3, 
+          icon: "fas fa-clipboard-check", 
+          title: "Taskboard", 
+          path: { name: "taskboard" } },
+        {
+          id: 1,
+          icon: "fas fa-home",
+          title: "Home",
+          path: { name: "home" } 
+        },
+        { 
+          id: 2, 
+          icon: "fas fa-stopwatch", 
+          title: "Timesheet" ,
+          path: { name: "timesheet" } 
+        },
+        { id: 5, icon: "fas fa-sign-out-alt", title: "Logout", logout: true },
+      ],
+    
+}}
 })
 </script>

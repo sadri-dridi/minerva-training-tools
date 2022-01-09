@@ -4,14 +4,21 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
-      { path: 'timesheet', component: () => import('pages/Timesheet.vue') },
-      { path: 'taskboard', component: () => import('pages/TaskBoard.vue') }
+      { path: '',name: 'home', meta: { id: 1, name: 'Dashboard', authRequired: true }, component: () => import('pages/Index.vue') },
+      { path: 'timesheet', name: 'timesheet', meta: { id: 2, name: 'Timesheet', authRequired: true }, component: () => import('pages/Timesheet.vue') },
+      { path: 'taskboard', name: 'taskboard', meta: { id: 3, name: 'Taskboard', authRequired: true }, component: () => import('pages/TaskBoard.vue') }
     ]
   },
   {
-    path: '/login',
-    component: () => import('pages/Login-1.vue')
+    path: '/auth',
+    component: () => import('layouts/LoginLayout.vue'),
+    children: [{
+      path: 'login',
+      name: 'auth.login',
+      meta: { name: 'Login', authRequired: false },
+      component: () => import('pages/Login.vue')
+    }
+    ]
   },
 
   // Always leave this as last one,
