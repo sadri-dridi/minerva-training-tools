@@ -15,14 +15,14 @@
 
       <card-time-line/>
     </div>
-  <q-card class="q-mt-md row bg-primary">
+  <!-- <q-card class="q-mt-md row bg-primary">
       <q-card-section class="col-12 text-center q-pa-lg">
 
         <div class="text-body1 q-mt-sm text-grey-7 text-weight-bold">
           © 2020 Davi Coscarelli, Inc. All rights reserved.
         </div>
       </q-card-section>
-    </q-card>
+    </q-card> -->
   </q-page>
 </template>
 

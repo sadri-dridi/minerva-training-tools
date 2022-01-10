@@ -86,8 +86,9 @@ export default defineComponent({
       return user
     },
   },
-  created() {
-  },
+  created(){
+        window.document.body.style.paddingBottom = this.$q.screen.width < 500 ? '70px' : '0px'
+    },
   methods: {
     
   },

@@ -21,10 +21,20 @@ Route.group(() => {
 }).prefix("v1")
 
 Route.group(() => {
-    Route.get("timesheet", "TimesheetController.index").as("timesheet.index");
-    Route.put("timesheet", "TimesheetController.update").as("timesheet.update");
-    Route.post("timesheet", "TimesheetController.store").as("timesheet.store");
-    Route.get("timesheet/:id", "TimesheetController.show").as("timesheet.show");
-    Route.delete("timesheet/:id", "TimesheetController.destroy").as("timesheet.destroy");
+    // Route.get("timesheet", "TimesheetController.index").as("timesheet.index");
+    // Route.put("timesheet", "TimesheetController.update").as("timesheet.update");
+    // Route.post("timesheet", "TimesheetController.store").as("timesheet.store");
+    // Route.get("timesheet/:id", "TimesheetController.show").as("timesheet.show");
+    // Route.delete("timesheet/:id", "TimesheetController.destroy").as("timesheet.destroy");
+    Route.resource("timesheet", "TimesheetController").apiOnly();
 
 }).prefix("v1")
+
+
+Route.group(() => {
+    Route.get("payperiods", "PayperiodController.index").as("payperiods.index");
+    Route.put("payperiods", "PayperiodController.update").as("payperiods.update");
+    Route.post("payperiods", "PayperiodController.store").as("payperiods.store");
+    Route.get("payperiods/:id", "PayperiodController.show").as("payperiods.show");
+    Route.get("payperiods/:id", "PayperiodController.destroy").as("payperiods.destroy");
+}).prefix("v1/admin")

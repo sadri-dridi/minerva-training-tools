@@ -22,7 +22,9 @@ class TimesheetController {
    */
   async index ({ request, response, auth }) {
     const user = await auth.getUser();
-    const timesheet = await Timesheet.query().where("user_id", user.id).fetch();
+    const { page, limit, filter } = request.all();
+    const timesheet = await Timesheet.query().where("user_id", user.id).where("date", "ILIKE", `%${filter}%`).paginate(page, limit);
+    console.log(timesheet)
     return response.send(timesheet);
   }
 
@@ -50,6 +52,7 @@ class TimesheetController {
     const timesheet = request.only(Timesheet.fillable);
     const user = await auth.getUser();
     timesheet.user_id = user.id;
+    console.log("CHEGOU",timesheet)
     const trx = await Database.beginTransaction();
     try {
       await Timesheet.create(timesheet, trx);
@@ -71,7 +74,12 @@ class TimesheetController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  async show ({ params, request, response, auth }) {
+    console.log("AAAAA")
+    const user = await auth.getUser();
+    const timesheet = await Timesheet.query().where("user_id", user.id).where("payperiod_id", params.id).orderBy('date', 'asc').fetch();
+    console.log(timesheet)
+    return response.send(timesheet);
   }
 
   /**

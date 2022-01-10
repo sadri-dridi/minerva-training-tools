@@ -8,12 +8,15 @@ class Timesheet extends Model {
         return this.belongsTo("App/Models/User")
     }
 
+    payperiod() {
+        return this.hasOne("App/Models/Payperiod")
+    }
+
     static get fillable() {
         return [
-          "title",
+          "payperiod_id",
           "date",
-          "time_start",
-          "time_end",
+          "hours",
           "description",
         ];
       }

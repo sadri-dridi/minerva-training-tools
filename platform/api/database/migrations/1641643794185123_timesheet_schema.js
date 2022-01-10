@@ -8,10 +8,9 @@ class TimesheetSchema extends Schema {
     this.create('timesheets', (table) => {
       table.increments()
       table.integer("user_id")
-      table.text("title")
+      table.integer("payperiod_id")
       table.string("date", 60)
-      table.string("time_start", 60)
-      table.string("time_end", 60)
+      table.string("hours", 60)
       table.text("description")
       table.timestamps()
 
@@ -19,6 +18,12 @@ class TimesheetSchema extends Schema {
         .foreign("user_id")
         .references("id")
         .inTable("users")
+        .onDelete("cascade")
+
+      table
+        .foreign("payperiod_id")
+        .references("id")
+        .inTable("payperiods")
         .onDelete("cascade")
     })
   }
