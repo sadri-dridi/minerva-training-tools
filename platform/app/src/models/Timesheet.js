@@ -43,7 +43,24 @@ export class Timesheet {
     try {
       const url = `timesheet`
 
-      const { status, data } = await post(url, hour)
+      const { status, data } = hour.id ? await put(url, hour) : await post(url, hour)
+        
+      if (status >= 200 && status <= 300) {
+        return true
+      }
+      
+    } catch (e) {
+      //console.log(e)
+      //Notify.create({ type: 'negative', message: `Usuário Não Cadastrado!` })
+      return false
+    }
+  }
+
+  static async remove(hour) {
+    try {
+      const url = `timesheet/${hour.id}`
+
+      const { status, data } = await axios.delete(url)
         
       if (status >= 200 && status <= 300) {
         return true

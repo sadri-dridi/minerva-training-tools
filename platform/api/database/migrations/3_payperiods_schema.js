@@ -8,8 +8,8 @@ class PayperiodsSchema extends Schema {
     this.create('payperiods', (table) => {
       table.increments()
       table.integer("payperiod")
-      table.date("date_start")
-      table.date("date_end")
+      table.timestamp("date_start")
+      table.timestamp("date_end")
       table.timestamps()
     })
   }

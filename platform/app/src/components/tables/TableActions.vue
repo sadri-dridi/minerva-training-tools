@@ -11,6 +11,9 @@
         <q-table 
           :rows="data" 
           :columns="columns" 
+          
+          row-key="description"
+
           hide-bottom
           :pagination.sync="paginate"
           hide-pagination
@@ -32,14 +35,58 @@
               </q-item>
             </q-td>
           </template> -->
-          <template v-slot:body-cell-Action="props">
+          <!-- <template v-slot:body-cell-Action="props">
             <q-td :props="props">
               <q-btn icon="edit" size="sm" flat dense/>
               <q-btn icon="delete" size="sm" class="q-ml-sm" flat dense/>
             </q-td>
+          </template> -->
+
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td
+                v-for="col in props.cols"
+                :key="col.name"
+                :props="props"
+              >
+                {{ col.value }}
+                <q-btn v-if="col.field == 'actions'" size="sm" flat color="primary" round dense @click="openEdit(props.row)" icon="edit" />
+              </q-td>
+              <!-- <q-td auto-width key="edit">
+                
+              </q-td> -->
+            </q-tr>
+            <!-- <q-tr v-show="props.expand" :props="props">
+              <q-td colspan="100%">
+                <div class="text-left">This is expand slot for row above: {{ props.row.description }}.</div>
+              </q-td>
+            </q-tr> -->
           </template>
 
-          <template v-slot:top>
+          
+          <!-- <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td key="description" :props="props">
+                {{ props.row.description }}
+                <q-icon v-if="props.row.description" class="q-ml-sm" color="primary" name="edit" />
+                <q-popup-edit v-model="props.row.description" v-slot="scope" title="Update" buttons label-set="Save" @save="()=>{}">
+                  <q-input v-model="scope.value" dense autofocus counter />
+                </q-popup-edit> 
+              </q-td>
+
+              <q-td key="date" :props="props">
+                {{ props.row.date }}
+              </q-td>
+
+              <q-td key="hours" :props="props">
+                {{ props.row.hours }}
+              </q-td>
+              
+              
+            </q-tr>
+        </template> -->
+
+        <template v-slot:top>
               
             <div class="flex justify-center col-12 q-mb-md">
               <q-btn
@@ -101,11 +148,11 @@
     </q-page-sticky>
 
 
-    <q-dialog v-model="hourDialog" >
+    <q-dialog v-model="hourDialog" @hide="cleanForm()">
       <q-card style="border-radius: 15px; width: 90%" class="q-px-sm q-pb-sm">
         <q-card-section class="row items-center q-pb-md">
           <q-space />
-          <div class="text-h6">Add Hours</div>
+          <div class="text-h6">{{newHour.id ? 'Edit Hour' : 'Add Hours'}}</div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
@@ -117,9 +164,9 @@
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy ref="datePick" cover transition-show="scale" transition-hide="scale">
                     <q-date
-                      v-model="newHour.date"
-                      @input="() => $refs.datePick.hide()"
+                      v-model="newHourDate"
                       mask="MM-DD-YYYY"
+                      :options="dateFilter"
                     />
                   </q-popup-proxy>
                 </q-icon>
@@ -137,7 +184,9 @@
               :rules="[val => !!val || 'Field is required']"
             />
             
-            <q-btn :loading="loadingCreate" class="q-mt-sm" type="submit" :size="$q.screen.width < 500 ? 'md' : 'lg'" padding="sm xl" no-caps unelevated rounded color="primary" label="Create" />
+            <q-btn v-if="newHour.id" :loading="loadingDelete" class="q-mt-sm q-mr-sm" @click="deleteHour" :size="$q.screen.width < 500 ? 'md' : 'lg'" padding="sm xl" no-caps unelevated rounded outline color="grey-8" label="Delete" />
+
+            <q-btn :loading="loadingCreate" class="q-mt-sm text-white" type="submit" :size="$q.screen.width < 500 ? 'md' : 'lg'" padding="sm xl" no-caps unelevated rounded style="background-color: #42A5F5" :label="newHour.id ? 'Update' : 'Create'" />
           </q-form>
         </q-card-section>
       </q-card>
@@ -166,11 +215,13 @@ export default defineComponent({
       current_payperiod: {},
       loading: false,
       loadingCreate: false,
+      loadingDelete: false,
       hourDialog: false,
       columns: [
         {name: 'Description', label: 'Description', field: 'description', sortable: false, align: 'left'},
         {name: 'Date', label: 'Date', field: 'date', sortable: false, align: 'left'},
-        {name: 'Hours', label: 'Hours', field: 'hours', sortable: false, align: 'left'}
+        {name: 'Hours', label: 'Hours', field: 'hours', sortable: false, align: 'center'},
+        {name: 'Actions', label: 'Actions', field: 'actions', sortable: false, align: 'center'},
       ],
       paginate: {
         page: 1,
@@ -179,11 +230,28 @@ export default defineComponent({
       },
       filter: "",
       newHour: {},
-      optionsFn (date) {
-        return date >= '2022/01/03' && date <= '2022/01/15'
-      },
+      newHourDate: ""
     }),
+    watch: {
+      newHourDate(value){
+        console.log("ENTROU")
+        this.newHour.date = value
+        this.$refs.datePick.hide()
+      }
+    },
     methods: {
+      selectDate(){
+        console.log("ENTROU")
+        this.$refs.datePick.hide()
+      },
+      openEdit(data){
+        console.log(data)
+        this.newHour = data
+        this.hourDialog = true
+      },
+      cleanForm(){
+        this.newHour = {}
+      },
       nextPayperiod(){
         this.current_payperiod = this.pay_periods.find(payperiod => payperiod.payperiod == this.current_payperiod.payperiod + 1) || this.current_payperiod
         console.log("FICOU ASSIM", this.current_payperiod)
@@ -193,6 +261,16 @@ export default defineComponent({
         this.current_payperiod = this.pay_periods.find(payperiod => payperiod.payperiod == this.current_payperiod.payperiod - 1) || this.current_payperiod
         console.log("FICOU ASSIM", this.current_payperiod)
         this.getData()
+      },
+
+      dateFilter (date) {
+        let date_parsed = new Date(date)
+        let current_start_parsed = new Date(this.current_payperiod.date_start)
+        let current_end_parsed = new Date(this.current_payperiod.date_end)
+        console.log(date_parsed)
+        console.log(date_parsed >= current_start_parsed && date_parsed <= current_end_parsed)
+        
+        return date_parsed >= current_start_parsed && date_parsed <= current_end_parsed
       },
 
       async addHour() {
@@ -208,11 +286,29 @@ export default defineComponent({
           // this.paginate.rowsNumber = Math.ceil(data.total/data.perPage)
           this.loadingCreate = false
           this.hourDialog = false
+          this.cleanForm()
+        }
+      },
+
+      async deleteHour() {
+        this.loadingDelete = true
+        
+        // const url = `timesheet?page=${page}&limit=${this.paginate.rowsPerPage}&filter=${this.filter}`
+        // const { data } = await this.$http.get(url)
+        const deleted = await Timesheet.remove({...this.newHour})
+       
+        if (deleted) {
+          this.getData()
+          // this.paginate.rowsPerPage = data.perPage
+          // this.paginate.rowsNumber = Math.ceil(data.total/data.perPage)
+          this.loadingDelete = false
+          this.hourDialog = false
+          this.cleanForm()
         }
       },
 
       async getData() {
-        console.log("chamou")
+        console.log("chamou2")
         this.loading = true
         
         // const url = `timesheet?page=${page}&limit=${this.paginate.rowsPerPage}&filter=${this.filter}`
@@ -229,31 +325,37 @@ export default defineComponent({
       },
 
       async getPayPeriods() {
-        console.log("chamou")
-        let current_date = new Date()
-        this.loading = true
+        try {
+          console.log("chamou1")
+          let current_date = new Date()
+          this.loading = true
+          
+          // const url = `timesheet?page=${page}&limit=${this.paginate.rowsPerPage}&filter=${this.filter}`
+          // const { data } = await this.$http.get(url)
+          const data = await Timesheet.getPayPeriods()
         
-        // const url = `timesheet?page=${page}&limit=${this.paginate.rowsPerPage}&filter=${this.filter}`
-        // const { data } = await this.$http.get(url)
-        const data = await Timesheet.getPayPeriods()
-       
-        if (data) {
-          data.map(payperiod => {
-            let date_start = new Date(payperiod.date_start)
-            let date_end = new Date(payperiod.date_end)
-            if(date_start <= current_date){
-              if (date_end >= current_date){
-                this.current_payperiod = payperiod
-                console.log(payperiod)
-                this.getData(payperiod)
+          if (data) {
+            data.map(payperiod => {
+              let date_start = new Date(payperiod.date_start)
+              let date_end = new Date(payperiod.date_end)
+              
+              
+              if(date_start <= current_date){
+                if (date_end >= current_date){
+                  this.current_payperiod = payperiod
+                  this.getData(payperiod)
 
+                }
               }
-            }
-          })
-          console.log(data)
-          this.pay_periods = data
-          this.loading = false
+            })
+            this.pay_periods = data
+            this.loading = false
 
+            
+          }
+          
+        } catch (error) {
+          console.log(error)
           
         }
       }, 

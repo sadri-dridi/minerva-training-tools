@@ -21,12 +21,12 @@ Route.group(() => {
 }).prefix("v1")
 
 Route.group(() => {
-    // Route.get("timesheet", "TimesheetController.index").as("timesheet.index");
-    // Route.put("timesheet", "TimesheetController.update").as("timesheet.update");
-    // Route.post("timesheet", "TimesheetController.store").as("timesheet.store");
-    // Route.get("timesheet/:id", "TimesheetController.show").as("timesheet.show");
-    // Route.delete("timesheet/:id", "TimesheetController.destroy").as("timesheet.destroy");
-    Route.resource("timesheet", "TimesheetController").apiOnly();
+    Route.get("timesheet", "TimesheetController.index").as("timesheet.index");
+    Route.put("timesheet", "TimesheetController.update").as("timesheet.update");
+    Route.post("timesheet", "TimesheetController.store").as("timesheet.store");
+    Route.get("timesheet/:id", "TimesheetController.show").as("timesheet.show");
+    Route.delete("timesheet/:id", "TimesheetController.destroy").as("timesheet.destroy");
+    // Route.resource("timesheet", "TimesheetController").apiOnly();
 
 }).prefix("v1")
 
