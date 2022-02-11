@@ -22,6 +22,24 @@ export class Timesheet {
     }
   }
 
+  static async getWeek (today) {
+    try {
+      // const url = `timesheet?page=${paginate.page}&limit=${paginate.rowsPerPage}&filter=${paginate.filter}`
+      const url = `timesheet/week/${today}`
+
+      const { status, data } = await get(url)
+        
+      if (status >= 200 && status <= 300) {
+        return data
+      }
+      
+    } catch (e) {
+      //console.log(e)
+      //Notify.create({ type: 'negative', message: `Usuário Não Cadastrado!` })
+      return false
+    }
+  }
+
   static async getPayPeriods (paginate) {
     try {
       const url = `admin/payperiods`

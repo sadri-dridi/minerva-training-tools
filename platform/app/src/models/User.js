@@ -31,6 +31,7 @@ export class User {
       const { data, status } = await post('auth/login', credencials)
 
       if (status === 200) {
+          console.log("LOGIN", data.user)
           localStorage.user = JSON.stringify(data.user)
           localStorage.setItem('access_token', data.tokens.token)
           localStorage.setItem('refresh_token', data.tokens.refreshToken)

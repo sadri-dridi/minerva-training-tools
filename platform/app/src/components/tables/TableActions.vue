@@ -311,8 +311,7 @@ export default defineComponent({
         console.log("chamou2")
         this.loading = true
         
-        // const url = `timesheet?page=${page}&limit=${this.paginate.rowsPerPage}&filter=${this.filter}`
-        // const { data } = await this.$http.get(url)
+       
         const data = await Timesheet.get(this.current_payperiod)
        
         if (data) {

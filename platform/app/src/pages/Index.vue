@@ -2,7 +2,7 @@
   <q-page class="q-pa-md bg-secondary">
     <div class="row q-px-md q-py-md">
         <h5 class="text-white  text-left">
-          Good Morning, Davi
+          Hello, Test
         </h5>
       </div>
 
