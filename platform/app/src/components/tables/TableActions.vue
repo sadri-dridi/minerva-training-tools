@@ -173,7 +173,7 @@
               </template>
             </q-input>
 
-            <q-input label="Hours" rounded outlined v-model="newHour.hours" type="number" :rules="[val => !!val || 'Field is required']"/>
+            <q-input label="Hours" rounded outlined v-model="newHour.hours" type="number" step="0.50" :rules="[val => !!val || 'Field is required']"/>
             
             <q-input
               v-model="newHour.description"

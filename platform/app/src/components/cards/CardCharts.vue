@@ -240,10 +240,10 @@ export default defineComponent({
               
               if(date <= current_date){
                 if (date >= start_date){
-                  let workedtime = {"label": date.toLocaleDateString('en-US', { weekday: 'long' }), "max": time.hours, "Hours": time.hours}
+                  let workedtime = {"label": `${date.toLocaleDateString('en-US', { weekday: 'long' , day: 'numeric', month: '2-digit' })}`, "max": time.hours, "Hours": time.hours}
                   times.push(workedtime)
                   this.BarChart.dataset.source.push(workedtime)
-                  this.BarChart.xAxis.data.push(date.toLocaleDateString('en-US', { weekday: 'long' }))
+                  this.BarChart.xAxis.data.push(date.toLocaleDateString('en-US', { weekday: 'long' , day: 'numeric',month: '2-digit' }))
                   this.totalHours += parseFloat(time.hours)
                 }
               }
