@@ -55,7 +55,7 @@ class UserController {
         user.role = "client";
 
         const all = request.all();
-        console.log(all)
+        console.log(user)
 
         const trx = await Database.beginTransaction();
         
@@ -65,7 +65,7 @@ class UserController {
         return response.status(201).send("Created");
     } catch (e) {
       console.log(e);
-      trx.rollback();
+      // trx.rollback();
       return response.status(400).send("NotCreated");
     }
   }
